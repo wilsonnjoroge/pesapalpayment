@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesapal Payment</title>
+</head>
+<body>
+    <h1>Pesapal Payment</h1>
+    <p>Please select your payment option below:</p>
+    <button id="mpesaBtn">Pay with M-PESA</button>
+    <button id="cardBtn">Pay with Card</button>
+
+    <script>
+        // Add your JavaScript logic here to handle button clicks and make API calls
+        document.getElementById('mpesaBtn').onclick = function() {
+            // Handle M-PESA payment
+            window.location.href = 'https://yourshop.co.ke/api/pesapal/pay'; // Update with the actual API call to get the redirect URL
+        };
+
+        document.getElementById('cardBtn').onclick = function() {
+            // Handle Card payment
+            window.location.href = 'https://yourshop.co.ke/api/pesapal/pay'; // Update with the actual API call to get the redirect URL
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+
+DEVELOPER CONSOLE = https://developer.pesapal.com/integration
+
+Context: TEST / SANDBOX
+
+Step 1: Start ngrok
+
+    Run your Spring Boot app locally (port 9500).
+
+    Open a terminal and start ngrok for your local port:
+
+    ngrok http 9500
+
+
+    After starting, you’ll see something like:
+
+    Forwarding                    https://abcd1234.ngrok.io -> http://localhost:9500
+
+
+    Use the HTTPS URL (https://abcd1234.ngrok.io) — Pesapal requires HTTPS for webhooks.
+
+Step 2: Set up your IPN endpoint in Spring Boot
+
+    Make sure your controller endpoint for Pesapal webhooks exists:
+
+    @PostMapping("/api/pesapal/ipn")
+    public void handlePesapalIPN(@RequestBody String payload) {
+        System.out.println("Received IPN payload: " + payload);
+    }
+
+Sttep 3. To get the access token, use the following
+    Method: POST
+    Endpoint: https://cybqa.pesapal.com/pesapalv3/api/Auth/RequestToken
+    Payload: 
+        {
+            "consumer_key": "YOUR_CONSUMER_KEY",
+            "consumer_secret": "YOUR_SECRET_KEY"
+        }
+
+    Response: 
+        {
+            "token": "*************.*************.*************",
+            "expiryDate": "2025-12-15T10:12:23.5213905Z",
+            "error": null,
+            "status": "200",
+            "message": "Request processed successfully"
+        }
+
+
+Step 4.  To Register IPN (Register IPN with Pesapal sandbox) using the PUBLIC URL
+    Method: POST
+    Endpoint: https://cybqa.pesapal.com/pesapalv3/api/URLSetup/RegisterIPN
+    Payload: 
+        {
+            "url": "https://a1b2c3d4.ngrok.io/api/pesapal/ipn", // The tunneled link eg grok (https) and include the api/pesapal/ipn
+            "ipn_notification_type": "POST"
+        }
+
+
+    NB: You must provide the auth token in the headers as Authorization Bearer token
+
+    Response: 
+        {
+            "url": "https://a1b2c3d4.ngrok.io/api/pesapal/ipn",
+            "created_date": "2025-12-15T09:26:29.8984437Z",
+            "ipn_id": "*************",
+            "notification_type": 1,
+            "ipn_notification_type_description": "POST",
+            "ipn_status": 1,
+            "ipn_status_decription": "Active",
+            "status": "200",
+            "message": "Request processed successfully"
+        }
+
+    Have the IPN ID registered in the application.properties or .yaml and use it in the code ie service implementation
+
+
+Step 5: Test payment request
+
+    Use Swagger or Postman to call your /api/pesapal/pay endpoint with your test payment data.
+
+    Check console logs from your debugged PesapalServiceImpl. You should see:
+
+    Using IPN ID: *************
+    Payment Payload: {...}
+    Pesapal Response: {... "redirect_url": "https://cybqa.pesapal.com/..."}
+
+
+    Pesapal will send POST notifications to your ngrok URL (/api/pesapal/ipn) when payment status updates.
+
+
+
+PAYLOADS: http://localhost:9500
+1. "/api/pesapal/pay"
+
+{
+  "customerId": "123456",
+  "amount": 10,
+  "currency": "KES",
+  "description": "Demo",
+  "callbackUrl": "https://*************.ngrok-free.app/api/pesapal/payment-completed"
+}
+
