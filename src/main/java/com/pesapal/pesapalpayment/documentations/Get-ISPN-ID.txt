@@ -1,0 +1,43 @@
+To register an IPN with Pesapal, you first need a valid OAuth token. Here's the full flow:
+
+Step 1: Get Auth Token
+POST https://cybqa.pesapal.com/pesapalv3/api/Auth/RequestToken
+json{
+  "consumer_key": "YOUR_CONSUMER_KEY",
+  "consumer_secret": "YOUR_CONSUMER_SECRET"
+}
+```
+
+Response gives you a `token`.
+
+---
+
+## Step 2: Register IPN
+
+**POST** `https://cybqa.pesapalv3/api/URLSetup/RegisterIPN`
+
+Headers:
+```
+Authorization: Bearer YOUR_TOKEN
+Content-Type: application/json
+Accept: application/json
+
+Body: json
+{
+  "url": "http://localhost:5050/api/payments/callback",
+  "ipn_notification_type": "POST"
+}
+
+Note: The field is url, not notification_url. Also ipn_notification_type can be "GET" or "POST".
+
+
+Example Response
+json{
+  "url": "http://localhost:5050/api/payments/callback",
+  "created_date": "2024-01-01T00:00:00",
+  "ipn_id": "*****",
+  "ipn_status": "Active",
+  "ipn_status_description": "Active",
+  "error": null,
+  "status": "200"
+}
