@@ -1,0 +1,4 @@
+
+#Swagger -> http://localhost:5050/swagger-ui/index.html
+#Ngrok tunneling -> https://1****free.app (http://localhost:5050)
+#End point -> 
