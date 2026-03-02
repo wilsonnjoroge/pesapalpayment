@@ -28,7 +28,7 @@ Step 2: Set up your IPN endpoint in Spring Boot
         System.out.println("Received IPN payload: " + payload);
     }
 
-Sttep 3. To get the access token, use the following
+Step 3. To get the access token, use the following
     Method: POST
     Endpoint: https://cybqa.pesapal.com/pesapalv3/api/Auth/RequestToken
     Payload: 
