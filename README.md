@@ -3,6 +3,7 @@ PesaPal Java Integration
 A Java integration for the PesaPal Payment API, supporting payment creation, customer redirection, and transaction status verification.
 
 Features
+```
 PesaPal API authentication
 Create payment orders
 Redirect customers to PesaPal
@@ -14,6 +15,8 @@ Java 17+
 Maven
 PesaPal merchant account
 PesaPal Consumer Key & Consumer Secret
+```
+
 Configuration
 
 Set the following environment variables:
